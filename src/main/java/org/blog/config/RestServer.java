@@ -24,6 +24,12 @@ public class RestServer {
 
     @Bean
     public Swagger2Feature swagger(){
-        return new Swagger2Feature();
+        Swagger2Feature swagger = new Swagger2Feature();
+        swagger.setBasePath("/services");
+        swagger.setContact("");
+        swagger.setLicense("");
+        swagger.setTitle("Demo Spring Boot CXF Application");
+        swagger.setDescription("");
+        return swagger;
     }
 }

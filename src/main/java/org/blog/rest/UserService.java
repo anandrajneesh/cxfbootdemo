@@ -1,5 +1,8 @@
 package org.blog.rest;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.stereotype.Service;
 import org.blog.models.User;
 
@@ -13,13 +16,15 @@ import javax.ws.rs.core.MediaType;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Service
+@Api(value = "user")
 public class UserService {
 
     @GET
     @Path("/{id}")
-    public User getUserById(@PathParam("id") long id){
+    @ApiOperation(value="Get user by id", response = User.class)
+    public User getUserById(@ApiParam(value="id of user", required=true) @PathParam("id") long id){
         User user =  new User();
-        user.set_id(Long.toString(id));
+        user.setId(Long.toString(id));
         user.setLastName("someh");
         user.setFirstName("asda");
         user.setEmail("asdada");

@@ -5,17 +5,17 @@ package org.blog.models;
  */
 public class User {
 
-    private String _id;
+    private String id;
     private String firstName;
     private String lastName;
     private String email;
 
-    public String get_id() {
-        return _id;
+    public String getId() {
+        return id;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setId(String _id) {
+        this.id = _id;
     }
 
     public String getFirstName() {
