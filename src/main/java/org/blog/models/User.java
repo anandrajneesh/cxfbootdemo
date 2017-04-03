@@ -1,10 +1,16 @@
 package org.blog.models;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 /**
  * Created by Anand_Rajneesh on 3/23/2017.
  */
+@Document(collection="#{@dbMapper.getUserMapping()}")
 public class User {
 
+
+    @Id
     private String id;
     private String firstName;
     private String lastName;
@@ -14,8 +20,8 @@ public class User {
         return id;
     }
 
-    public void setId(String _id) {
-        this.id = _id;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -40,5 +46,9 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public User self(){
+        return this;
     }
 }
