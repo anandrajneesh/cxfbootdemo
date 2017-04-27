@@ -15,9 +15,11 @@
         <spring.version>1.4.3.RELEASE</spring.version>
         <cxf.version>3.1.10</cxf.version>
         <swaggerui.version>2.1.8-M1</swaggerui.version>
+        <nosqlunit.version>0.7.6</nosqlunit.version>
     </properties>
 
     <dependencies>
+
         <dependency>
             <!-- Alternative to inheriting from parent spring pom -->
             <groupId>org.springframework.boot</groupId>
@@ -81,6 +83,11 @@
             <groupId>org.glassfish</groupId>
             <artifactId>javax.el</artifactId>
             <version>3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lordofthejars</groupId>
+            <artifactId>nosqlunit-mongodb</artifactId>
+            <version>${nosqlunit.version}</version>
         </dependency>
     </dependencies>
 
