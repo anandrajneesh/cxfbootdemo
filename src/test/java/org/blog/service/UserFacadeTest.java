@@ -131,7 +131,31 @@ public class UserFacadeTest {
         }
     }
 
+    @Test(expected = ValidationException.class)
+    public void getUserByEmail_NullEmail(){
+        String email = null;
+        try{
+            testObject.getByEmail(email);
+        }catch (Exception e){
+            verify(userRepository, never()).findByEmail(anyString());
+            throw e;
+        }
+    }
 
+    @Test
+    public void getUserByEmail_ExistingRecord(){
+        String email = user.getEmail();
+        when(userRepository.findByEmail(email)).thenReturn(user);
+        testUserPropertiesEquality(testObject.getByEmail(email), user);
+        verify(userRepository, times(1)).findByEmail(anyString());
+    }
+
+    @Test
+    public void getUserByEmail_NotExistingRecord(){
+        String email = "notexistent@null.com";
+        when(userRepository.findByEmail(email)).thenReturn(null);
+        assertNull(testObject.getByEmail(email));
+    }
 
     public void testUserPropertiesEquality(User u1, User u2){
         assertEquals(u1.getEmail(), u2.getEmail());

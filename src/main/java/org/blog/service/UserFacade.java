@@ -43,13 +43,22 @@ public class UserFacade {
         return run(id, validations, get);
     }
 
-    public User modifyDetails(User user) throws ValidationException, ResourceNotFoundException {
+    private User update(User user, UnaryOperator<User> updateOp) throws ValidationException, ResourceNotFoundException{
         Validation objNotNull = validation(() -> user, Validator::notNull, ValidationException::new);
         Validation idNotNull = validation(user::getId, Validator::notNull, ValidationException::new);
         Validation exists = validation(user::getId, (id) -> userRepository.exists(id), ResourceNotFoundException::new);
         Validation[] validations = {objNotNull, idNotNull, exists};
-        UnaryOperator<User> update = (modifiedUser) -> userRepository.save(modifiedUser);
-        return run(user, validations, update);
+        return run(user, validations, updateOp);
+    }
+
+    public User update(User user) throws ValidationException, ResourceNotFoundException {
+        UnaryOperator<User> updateOp = (modifiedUser) -> userRepository.save(modifiedUser);
+        return update(user, updateOp);
+    }
+
+    public User customUpdate(User user) throws ValidationException, ResourceNotFoundException{
+        UnaryOperator<User> updateOp = (modifiedUser) -> userRepository.customUpdate(modifiedUser);
+        return update(user, updateOp);
     }
 
     public void delete(String id) throws ValidationException, ResourceNotFoundException {
@@ -96,4 +105,17 @@ public class UserFacade {
         return run(t, new Validation[]{}, operator);
     }
 
+    public User getByEmail(String email) throws ValidationException, ResourceNotFoundException{
+        Validation emailNotNull = validation(()->email, Validator::notNull, ValidationException::new);
+        Function<String, User> getByEmail = arg -> Optional.ofNullable(userRepository.findByEmail(arg)).orElseThrow(ResourceNotFoundException::new);
+        Validation [] validations = {emailNotNull};
+        return run(email,validations, getByEmail);
+    }
+
+    public User customFind(User user) throws ValidationException, ResourceNotFoundException{
+        Validation userNotNull = validation(()->user, Validator::notNull, ValidationException::new);
+        UnaryOperator<User> customFind = arg -> Optional.ofNullable(userRepository.customFind(arg)).orElseThrow(ResourceNotFoundException::new);
+        Validation [] validations = {userNotNull};
+        return run(user, validations, customFind);
+    }
 }

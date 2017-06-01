@@ -49,4 +49,34 @@ public class UserService {
         return Response.noContent().build();
     }
 
+    @ApiOperation(value ="get user by email")
+    @GET
+    public Response getUserByEmail(@ApiParam(required = true)@QueryParam("email") String email){
+        User user = userFacade.getByEmail(email);
+        return Response.ok(user).build();
+    }
+
+    @ApiOperation(value = "custom find")
+    @POST
+    @Path("/search")
+    public Response customFindUser(@ApiParam(required = true)User user){
+        User foundUser = userFacade.customFind(user);
+        return Response.ok(foundUser).build();
+    }
+
+    @ApiOperation(value = "update")
+    @PUT
+    public Response update(@ApiParam(required = true) User user){
+        User modifiedUser = userFacade.update(user);
+        return Response.ok(modifiedUser).build();
+    }
+
+    @ApiOperation(value = "update")
+    @PUT
+    @Path("/custom")
+    public Response customUpdate(@ApiParam(required = true) User user){
+        User modifiedUser = userFacade.customUpdate(user);
+        return Response.ok(modifiedUser).build();
+    }
+
 }
